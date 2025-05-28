@@ -1,0 +1,59 @@
+{% extends 'job_app/base.html' %}
+
+{% block content %}
+<div class="container mt-4 mb-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">Apply for {{ job.JobRole }}</h4>
+      <span class="badge bg-light text-primary">{{ job.company }}</span>
+    </div>
+    
+    <div class="card-body p-4">
+      {% if already_applied %}
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-circle me-2"></i> You have already applied to this job!
+        </div>
+        <a href="{% url 'job_detail' job.id %}" class="btn btn-secondary">
+          <i class="fas fa-arrow-left me-1"></i> Back to Job Details
+        </a>
+      {% else %}
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+          <div class="mb-3">
+            <label class="form-label">Resume (PDF/DOC)</label>
+            <input type="file" class="form-control" name="resume" required>
+          </div>
+          
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Description</label>
+              <input type="text" class="form-control" name="description" required placeholder="Describe your skills">
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label">Skills</label>
+              <input type="text" class="form-control" name="skills" required placeholder="Enter your skills">
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label class="form-label">Experience</label>
+            <textarea class="form-control" name="experience" rows="3" required placeholder="Describe your work experience"></textarea>
+          </div>
+          
+          <div class="d-flex">
+            <button class="btn btn-success me-2" type="submit">
+              <i class="fas fa-paper-plane me-1"></i> Submit Application
+            </button>
+            <a href="{% url 'job_detail' job.id %}" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}

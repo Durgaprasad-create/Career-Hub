@@ -1,0 +1,53 @@
+{% extends 'job_app/base.html' %}
+{% block content %}
+<div class="container mt-4 mb-4">
+    <!-- Messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} mb-3">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    
+    <!-- Back link -->
+    <a href="javascript:history.back()" class="text-decoration-none mb-3 d-inline-block">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+    
+    <!-- Job card -->
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h2 class="mb-3">{{ job.JobRole }}</h2>
+            
+            <div class="mb-3">
+                <span class="badge bg-primary">{{ job.category }}</span>
+                <span class="text-muted ms-3">
+                    <i class="fas fa-building"></i> {{ job.company }} | 
+                    <i class="fas fa-map-marker-alt"></i> {{ job.location }}
+                </span>
+            </div>
+            
+            <hr>
+            
+            <div class="mb-3">
+                <h5>Description</h5>
+                <p>{{ job.description|linebreaks }}</p>
+            </div>
+            
+            <div class="text-muted small mb-3">
+                Posted on {{ job.posted_on|date:"F d, Y" }} by {{ job.posted_by.username }}
+            </div>
+            
+            {% if user.is_authenticated and user.profile.user_type == 'employee' %}
+                {% if has_applied %}
+                    <div class="alert alert-success">✅ You have already applied for this job.</div>
+                {% else %}
+                    <a href="{% url 'apply_job' job.id %}" class="btn btn-primary">Apply Now</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}

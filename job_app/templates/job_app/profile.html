@@ -1,0 +1,20 @@
+{% extends 'job_app/base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Update Profile</h2>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ profile_form.as_p }}
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </form>
+        
+        {% if user.profile.profile_picture %}
+            <h3>Your Profile Picture:</h3>
+            <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" width="150">
+        {% else %}
+            <p>No profile picture set yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

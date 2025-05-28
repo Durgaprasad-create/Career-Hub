@@ -1,0 +1,44 @@
+{% extends 'job_app/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>{{ profile.user.username }}'s Profile</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Email:</strong> {{ profile.user.email }}</p>
+
+            {% with latest_app=profile.user.jobapplication_set.last %}
+                {% if latest_app %}
+                    <p><strong>Experience:</strong> {{ latest_app.experience|default:"N/A" }}</p>
+                    <p><strong>Skills:</strong> {{ latest_app.skills|default:"N/A" }}</p>
+                    <p><strong>Description:</strong> {{ latest_app.description|default:"N/A" }}</p>
+                {% else %}
+                    <p class="text-muted">No application details available yet.</p>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+    <div class="card mt-4 shadow">
+        <div class="card-header bg-success text-white">
+            <h5>Applied Jobs</h5>
+        </div>
+        <div class="card-body">
+            {% if applications %}
+                <ul class="list-group list-group-flush">
+                    {% for app in applications %}
+                        <li class="list-group-item">
+                            <strong>{{ app.job.JobRole }}</strong> at <strong>{{ app.job.company }}</strong>
+                            <span class="text-muted">— Applied on {{ app.applied_on|date:"Y-m-d" }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No job applications found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

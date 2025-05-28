@@ -1,0 +1,54 @@
+{% extends 'job_app/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow border-0 rounded">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0">Model Accuracy Results</h2>
+                        <a href="{% url 'model_accuracy' %}" class="btn btn-light btn-sm">
+                            📊 Model Accuracies
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Best model highlight -->
+                    <div class="alert alert-success mb-4 p-4 text-center" style="border-left: 5px solid #28a745;">
+                        <h4 class="mb-1">Best Performing Model</h4>
+                        <h3 class="font-weight-bold" style="font-size: 1.8rem; color: #155724;">{{ highest_model }} ({{ highest_accuracy }})</h3>
+                    </div>
+                    
+                    <!-- All models comparison -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead style="background-color: #f8f9fa;">
+                                <tr>
+                                    <th style="font-size: 1.1rem;">Model</th>
+                                    <th class="text-center" style="font-size: 1.1rem;">Accuracy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for model, accuracy in accuracy_data.items %}
+                                <tr class="{% if model == highest_model %}table-success{% endif %}">
+                                    <td>
+                                        {% if model == highest_model %}
+                                        <span class="badge badge-success mr-2">BEST</span>
+                                        {% endif %}
+                                        {{ model }}
+                                    </td>
+                                    <td class="text-center font-weight-bold {% if model == highest_model %}text-success{% endif %}">
+                                        {{ accuracy }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'job_app/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow-sm text-center mx-auto" style="max-width: 450px;">
+    <div class="card-header bg-primary text-white py-3">
+      <h3 class="mb-0">Create Account</h3>
+    </div>
+    <div class="card-body p-4">
+      <p class="mb-4">Select your account type:</p>
+      <div class="row g-3">
+        <div class="col-6">
+          <a href="{% url 'employee_register' %}" class="btn btn-outline-primary w-100 py-3">
+            <i class="fas fa-user-tie mb-2 d-block" style="font-size: 24px;"></i>
+            Employee
+          </a>
+        </div>
+        <div class="col-6">
+          <a href="{% url 'employer_register' %}" class="btn btn-outline-primary w-100 py-3">
+            <i class="fas fa-building mb-2 d-block" style="font-size: 24px;"></i>
+            Employer
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+    

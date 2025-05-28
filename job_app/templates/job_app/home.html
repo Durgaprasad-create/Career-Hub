@@ -1,0 +1,184 @@
+{% extends 'job_app/base.html' %}
+
+{% block content %}
+<div class="container-fluid px-0">
+    <!-- Hero Section (with full-width background) -->
+    <section class="py-5 mb-5" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h1 class="display-3 fw-bold text-white mb-3" style="text-shadow: 0 2px 4px rgba(0,0,0,0.2);">Find Your Dream Job</h1>
+                    <p class="lead text-white mb-4">Search thousands of job listings from top companies</p>
+                    
+                    <div class="card border-0 shadow-lg p-4 mb-4">
+                        <form method="get" action="{% url 'job_list' %}" class="row g-2 justify-content-center">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-0">
+                                        <i class="fas fa-search text-primary"></i>
+                                    </span>
+                                    <input class="form-control border-0" type="text" name="keyword" placeholder="Job title, keywords...">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-0">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                    </span>
+                                    <input class="form-control border-0" type="text" name="location" placeholder="Location">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary w-100 fw-bold" type="submit">
+                                    Search Jobs
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Popular Job Categories -->
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold mb-0">Popular Job Categories</h2>
+                <a href="{% url 'job_list' %}" class="text-decoration-none">View all <i class="fas fa-arrow-right ms-1"></i></a>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-3 col-sm-6">
+                    <a href="{% url 'job_category' category='software-development' %}" class="card h-100 border-0 shadow-sm hover-card text-decoration-none">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle bg-primary bg-opacity-10 mb-3 mx-auto">
+                                <i class="fas fa-laptop-code text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Software Development</h5>
+                            
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="{% url 'job_category' category='marketing' %}" class="card h-100 border-0 shadow-sm hover-card text-decoration-none">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle bg-success bg-opacity-10 mb-3 mx-auto">
+                                <i class="fas fa-bullhorn text-success"></i>
+                            </div>
+                            <h5 class="card-title">Marketing</h5>
+                            
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="{% url 'job_category' category='finance' %}" class="card h-100 border-0 shadow-sm hover-card text-decoration-none">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle bg-warning bg-opacity-10 mb-3 mx-auto">
+                                <i class="fas fa-chart-line text-warning"></i>
+                            </div>
+                            <h5 class="card-title">Finance</h5>
+                            
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <a href="{% url 'job_category' category='healthcare' %}" class="card h-100 border-0 shadow-sm hover-card text-decoration-none">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle bg-info bg-opacity-10 mb-3 mx-auto">
+                                <i class="fas fa-heartbeat text-info"></i>
+                            </div>
+                            <h5 class="card-title">Healthcare</h5>
+                            
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Jobs Section -->
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold mb-0">Latest Job Listings</h2>
+                <a href="{% url 'job_list' %}" class="text-decoration-none">Browse all jobs <i class="fas fa-arrow-right ms-1"></i></a>
+            </div>
+            
+            <div class="row g-4">
+                {% if Jobs %}
+                    {% for job in Jobs %}
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm hover-card">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">New</span>
+                                    
+                                </div>
+                                <h5 class="card-title fw-bold mb-3">{{ job.JobRole }}</h5>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-building text-muted me-2"></i>
+                                        <span>{{ job.company }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                        <span>{{ job.location }}</span>
+                                    </div>
+                                </div>
+                                <a href="{% url 'job_detail' job.id %}" class="btn btn-outline-primary w-100 mt-3">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">
+                            <i class="fas fa-info-circle me-2"></i> No recent job listings available.
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .icon-circle i {
+        font-size: 24px;
+    }
+    
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .input-group {
+        border-radius: 0.375rem;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .input-group-text {
+        border-right: none;
+    }
+    
+    .form-control {
+        border-left: none;
+    }
+</style>
+
+<!-- Link to Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}

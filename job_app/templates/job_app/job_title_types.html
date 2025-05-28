@@ -1,0 +1,103 @@
+{% extends 'job_app/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="text-center mb-5 position-relative">
+        <div class="d-flex justify-content-center align-items-center mb-3">
+            <h2 class="display-4 font-weight-bold mb-0">Job Title Categories</h2>
+            <a href="{% url 'model_accuracy' %}" class="btn btn-primary ml-4" style="position: absolute; right: 0;">
+                📊 Model Accuracies
+            </a>
+        </div>
+        <div class="mx-auto" style="width: 70px; height: 4px; background-color: #007bff; margin-bottom: 1.5rem;"></div>
+        <p class="lead">Discover the different job categories and sample titles our system identifies</p>
+    </div>
+
+    <div class="row">
+        {% for category, titles in job_categories.items %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+                <div class="card-header py-3" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; border: none;">
+                    <h4 class="mb-0 font-weight-bold">{{ category }}</h4>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-3 text-muted font-weight-bold">Example Job Titles:</h6>
+                    <div class="title-container">
+                        {% for title in titles %}
+                        <div class="job-title-item mb-2 p-2">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-circle mr-3">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <span class="title-text">{{ title }}</span>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="job-title-item mb-2 p-2">
+                            <span class="text-muted">No examples available</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .icon-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #007bff;
+    }
+    
+    .job-title-item {
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        transition: background-color 0.3s ease;
+    }
+    
+    .job-title-item:hover {
+        background-color: #e9ecef;
+    }
+    
+    .title-text {
+        font-weight: 500;
+    }
+    
+    .title-container {
+        max-height: 350px;
+        overflow-y: auto;
+        padding-right: 5px;
+    }
+    
+    .title-container::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    .title-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 5px;
+    }
+    
+    .title-container::-webkit-scrollbar-thumb {
+        background: #007bff;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}

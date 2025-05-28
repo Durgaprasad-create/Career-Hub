@@ -1,0 +1,68 @@
+{% extends 'job_app/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Job Title Distribution</h4>
+            <a href="{% url 'model_accuracy' %}" class="btn btn-sm btn-light">📊 Model Accuracies</a>
+        </div>
+        
+        <div class="card-body">
+            {% if error_message %}
+                <div class="alert alert-danger">{{ error_message }}</div>
+            {% else %}
+                <p class="text-center mb-3">Total Job Titles: <strong>{{ total_titles }}</strong></p>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Category</th>
+                                <th class="text-center">Count</th>
+                                <th class="text-center">Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category, data in categories.items %}
+                            <tr>
+                                <td>{{ category }} {% if forloop.counter == 1 %}<span class="badge bg-primary">Top</span>{% endif %}</td>
+                                <td class="text-center fw-bold">{{ data.count }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1" style="height: 8px;">
+                                            <div class="pbar" data-width="{{ data.percentage }}"></div>
+                                        </div>
+                                        <span class="ms-2">{{ data.percentage }}%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .pbar {
+        height: 100%;
+        background-color: #0d6efd;
+        border-radius: 4px;
+        width: 0;
+    }
+    .progress {
+        background-color: #f0f0f0;
+        border-radius: 4px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.pbar').forEach(bar => 
+            bar.style.width = bar.dataset.width + '%');
+    });
+</script>
+{% endblock %}

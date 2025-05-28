@@ -1,0 +1,81 @@
+{% extends 'job_app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Header Buttons -->
+<div class="container mt-4 mb-4 text-center">
+    <h3 class="text-primary mb-3 fw-bold">Two Stage Job Title Identification System</h3>
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+        <a href="{% url 'browse_dataset' %}" class="btn btn-danger">
+            Browse Datasets and Train & Test Data Sets
+        </a>
+        <a class="btn btn-danger" href="{% url 'matplotlib_chart_view' 'bar' %}">
+            View Trained and Tested Accuracy in Bar Chart
+        </a>
+        
+        <a class="btn btn-danger" href="{% url 'model_accuracy_results' %}">View Trained and Tested Accuracy Results</a>
+        <a class="btn btn-danger" href="{% url 'job_title_types' %}">View Predicted Job Title Identification Type</a>
+        <a class="btn btn-danger" href="{% url 'job_title_ratio' %}">View Job Title Identification Type Ratio</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">📊 Model Prediction Accuracy Comparison</h2>
+
+    <!-- Models Used -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-info text-white">
+            📌 Models Used
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                {% for model in all_models %}
+                    <li class="list-group-item">{{ model.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Top 3 Models -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-success text-white">
+            🏆 Top 3 Models by Accuracy
+        </div>
+        <div class="card-body">
+            {% for model in top_models %}
+                <div class="alert alert-success d-flex justify-content-between align-items-center">
+                    <strong>{{ model.name }}</strong>
+                    <span>{{ model.accuracy|floatformat:2 }}%</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- All Model Accuracies Table -->
+    <div class="card shadow">
+        <div class="card-header bg-secondary text-white">
+            🔬 All Model Accuracies
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-bordered text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Model Name</th>
+                        <th>Accuracy (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for model in all_models %}
+                        <tr>
+                            <td>{{ model.name }}</td>
+                            <td>{{ model.accuracy|floatformat:2 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
