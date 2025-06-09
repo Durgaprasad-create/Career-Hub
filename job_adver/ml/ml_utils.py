@@ -301,7 +301,7 @@ def smart_override_check(text):
     # Rule 3: ENHANCED healthcare indicators
     health_terms = [
         'physical therapy', 'physical therapist', 'therapist', 'therapy',
-        'registered nurse', 'nurse', 'nursing', 'rn', 'lpn',
+        'registered nurse', 'nurse', 'nursing', 'registered nurse',
         'medical', 'clinical', 'patient care', 'healthcare', 'health care',
         'doctor', 'physician', 'md', 'hospital', 'clinic',
         'pharmacy', 'pharmacist', 'dental', 'dentist',
