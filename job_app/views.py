@@ -534,15 +534,33 @@ def model_accuracy_results(request):
     })
 
 
-from job_adver.ml.ml_utils import category_to_titles  # Import your category-to-titles mapping
+from job_adver.ml.ml_utils import get_context_aware_titles  # Import the function
+
 def job_title_types(request):
     """
     Display the predicted job title types and examples from each category
     """
-    # Extract the categories and their titles
+    # Define your categories manually or create a proper mapping
+    categories = [
+        'Software Development',
+        'Healthcare', 
+        'Finance',
+        'Data & Analytics',
+        'Sales & Marketing',
+        'Business Management',
+        'HR & Recruitment',
+        'IT Operations',
+        'Education',
+        'Legal',
+        'Creative & Design'
+    ]
+    
+    # Generate job titles for each category
     job_categories = {}
-    for category, titles in category_to_titles.items():
-        job_categories[category] = titles
+    for category in categories:
+        # Use a generic text to get representative titles for each category
+        sample_titles = get_context_aware_titles(category, category.lower(), None)
+        job_categories[category] = sample_titles
     
     # Sort categories alphabetically for consistent display
     sorted_categories = dict(sorted(job_categories.items()))
@@ -556,15 +574,32 @@ def job_title_ratio_view(request):
     """View to display the ratio of different job title types"""
     try:
         # Import necessary functions from your ML module
-        from job_adver.ml.ml_utils import MODEL_ACCURACIES, MODEL_NAME_MAP, category_to_titles
+        from job_adver.ml.ml_utils import MODEL_ACCURACIES, MODEL_NAME_MAP, get_context_aware_titles
+        
+        # Define your categories
+        categories = [
+            'Software Development',
+            'Healthcare', 
+            'Finance',
+            'Data & Analytics',
+            'Sales & Marketing',
+            'Business Management',
+            'HR & Recruitment',
+            'IT Operations',
+            'Education',
+            'Legal',
+            'Creative & Design'
+        ]
         
         # Calculate ratios/counts of different job titles by category
         category_counts = {}
         total_titles = 0
         
         # Count titles in each category
-        for category, titles in category_to_titles.items():
-            count = len(titles)
+        for category in categories:
+            # Get sample titles for this category
+            sample_titles = get_context_aware_titles(category, category.lower(), None)
+            count = len(sample_titles)
             category_counts[category] = count
             total_titles += count
         
