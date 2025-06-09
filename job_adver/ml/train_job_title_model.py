@@ -31,10 +31,10 @@ def categorize_job_title(title):
             'golang', 'rust', 'scala', 'typescript', 'api', 'microservices', 'blockchain', 'coding'
         ],
         'Healthcare': [
-            'nurse', 'nursing', 'rn', 'lpn', 'doctor', 'physician', 'md', 'medical', 'healthcare', 
+            'nurse', 'nursing', 'registered nurse','lpn', 'doctor', 'physician', 'md', 'medical', 'healthcare', 
             'clinical', 'therapy', 'therapist', 'pharmacy', 'pharmacist', 'dental', 'dentist', 
             'surgeon', 'surgery', 'radiologist', 'cardiologist', 'neurologist', 'psychiatrist', 
-            'psychologist', 'counselor', 'social worker', 'physical therapy', 'occupational therapy', 
+            'psychologist', 'counselor', 'physical therapy', 'occupational therapy', 
             'respiratory therapy', 'lab technician', 'medical assistant', 'paramedic', 'emt', 
             'veterinarian', 'optometrist', 'chiropractor', 'patient care', 'hospital', 'clinic'
         ],
@@ -96,6 +96,7 @@ def categorize_job_title(title):
         ],
         'Creative & Design': [
             'designer', 'graphic designer', 'web designer', 'ui designer', 'ux designer', 'creative', 
+            'ux', 'ui', 'user experience', 'user interface', 'wireframe', 'prototype',
             'artist', 'illustrator', 'animator', 'video editor', 'photographer', 'videographer', 
             'art director', 'creative director', 'brand designer', 'logo designer', 'print designer', 
             'digital designer', 'motion graphics', 'visual designer', 'product designer', 'fashion designer', 
@@ -140,7 +141,7 @@ def categorize_job_title(title):
     # ULTRA-AGGRESSIVE weights for minority and high-skill categories
     weights = {
         'Healthcare': 10, 'Finance': 8, 'Legal': 8, 'Education': 6, 
-        'Data & Analytics': 4, 'Software Development': 3, 'Creative & Design': 5,
+        'Data & Analytics': 4, 'Software Development': 3, 'Creative & Design': 10,
         'Manufacturing & Production': 4, 'Transportation & Logistics': 3,
         'Real Estate': 4, 'Media & Communications': 4
     }
@@ -167,7 +168,7 @@ def preprocess_profile(row):
 
 def train_all_models(X_train_tfidf, y_train, X_test_tfidf, y_test):
     # SMOTE balance
-    smote = SMOTE(sampling_strategy='auto', k_neighbors=2, random_state=42)
+    smote = SMOTE(sampling_strategy='auto', k_neighbors=1, random_state=42)
     X_train_balanced, y_train_balanced = smote.fit_resample(X_train_tfidf, y_train)
     X_train_dense, X_test_dense = X_train_balanced.toarray(), X_test_tfidf.toarray()
     
@@ -259,7 +260,7 @@ def get_smart_titles(category, text):
         'IT Operations': ['IT Professional', 'Technical Specialist'],
         'Education': ['Education Professional', 'Academic Specialist'], 
         'Legal': ['Legal Professional', 'Legal Specialist'],
-        'Creative & Design': ['Creative Professional', 'Design Specialist'],
+        'Creative & Design': ['Creative Professional', 'Design Specialist','UI/UX Developer'],
         'Manufacturing & Production': ['Manufacturing Professional', 'Production Specialist'],
         'Customer Service': ['Customer Service Representative', 'Support Specialist'],
         'Transportation & Logistics': ['Logistics Professional', 'Transportation Specialist'],
